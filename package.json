@@ -1,7 +1,7 @@
 {
-  "name": "svelte-express-boilerplate",
+  "name": "flight-insure",
   "version": "1.0.0",
-  "description": "Boilerplate for developing full stack apps with Express and Svelte.js",
+  "description": "Web3 Flight Insurance dApp & Frontend",
   "main": "src/app.js",
   "scripts": {
     "client-install": "cd client && npm install",
@@ -13,14 +13,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dj0nny/svelte-express-boilerplate.git"
+    "url": "git+https://github.com/sangeetkar/FlightInsure"
   },
-  "author": "dj0nny",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/dj0nny/svelte-express-boilerplate/issues"
-  },
-  "homepage": "https://github.com/dj0nny/svelte-express-boilerplate#readme",
+  "author": "sangeetkar",
+  "license": "unlincensed",
+  "homepage": "https://github.com/sangeetkar/FlightInsure#readme",
   "dependencies": {
     "body-parser": "^1.20.1",
     "concurrently": "^7.5.0",
@@ -28,6 +25,8 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
+    "@openzeppelin/contracts": "^4.8.0",
+    "@truffle/hdwallet-provider": "^2.1.3",
     "nodemon": "^2.0.20"
   }
 }
