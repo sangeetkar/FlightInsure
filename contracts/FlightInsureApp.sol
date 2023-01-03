@@ -19,9 +19,8 @@ contract FlightInsureApp is Ownable, Pausable {
     uint8 private constant STATUS_CODE_LATE_TECHNICAL = 40;
     uint8 private constant STATUS_CODE_LATE_OTHER = 50;
 
-    constructor(address _dataContract, address _firstAirline) {
+    constructor(address _dataContract) {
         dataContract = IFlightInsureData(_dataContract);
-        dataContract.registerAirline(_firstAirline);
     }
 
     modifier hasFunded(address airline) {
@@ -98,6 +97,7 @@ contract FlightInsureApp is Ownable, Pausable {
         string calldata flight,
         uint256 timestamp
     ) external payable whenNotPaused hasFunded(airline) {
+        require(msg.value > 0, "Missing insurance amount");
         require(
             msg.value <= maximumInsuredAmount,
             "Above Maximum Insurance Limit"
@@ -148,12 +148,16 @@ contract FlightInsureApp is Ownable, Pausable {
         dataContract.withdrawPayments(payable(msg.sender));
     }
 
+    mapping(bytes32 => uint8) finalFlightStatus;
+
     function processFlightStatus(
         address airline,
         string calldata flight,
         uint256 timestamp,
         uint8 statusCode
     ) internal {
+        bytes32 key = keccak256(abi.encodePacked(airline, flight, timestamp));
+        finalFlightStatus[key] = statusCode;
         if (statusCode == STATUS_CODE_LATE_AIRLINE) {
             creditInsurees(airline, flight, timestamp);
         }
@@ -164,13 +168,29 @@ contract FlightInsureApp is Ownable, Pausable {
         string calldata flight,
         uint256 timestamp
     ) external {
-        uint8 idx = getRandomIndex(msg.sender);
-        bytes32 key = keccak256(
-            abi.encodePacked(idx, airline, flight, timestamp)
+        require(
+            timestamp < block.timestamp,
+            "Available after scheduled departure"
         );
-        oracleResponses[key].requester = msg.sender;
-        oracleResponses[key].isOpen = true;
-        emit OracleRequest(idx, airline, flight, timestamp);
+        bytes32 flightkey = keccak256(
+            abi.encodePacked(airline, flight, timestamp)
+        );
+        if (finalFlightStatus[flightkey] != STATUS_CODE_UNKNOWN) {
+            emit FlightStatusInfo(
+                airline,
+                flight,
+                timestamp,
+                finalFlightStatus[flightkey]
+            );
+        } else {
+            uint8 idx = getRandomIndex(msg.sender);
+            bytes32 key = keccak256(
+                abi.encodePacked(idx, airline, flight, timestamp)
+            );
+            oracleResponses[key].requester = msg.sender;
+            oracleResponses[key].isOpen = true;
+            emit OracleRequest(idx, airline, flight, timestamp);
+        }
     }
 
     /// Oracle Code
@@ -284,7 +304,7 @@ contract FlightInsureApp is Ownable, Pausable {
             oracleResponses[key].responses[statusCode].length >= MIN_RESPONSES
         ) {
             emit FlightStatusInfo(airline, flight, timestamp, statusCode);
-
+            oracleResponses[key].isOpen = false;
             // Handle flight status as appropriate
             processFlightStatus(airline, flight, timestamp, statusCode);
         }

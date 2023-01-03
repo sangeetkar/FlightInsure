@@ -4669,7 +4669,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2022-12-16T12:40:48.854Z",
+  "updatedAt": "2023-01-03T12:29:48.732Z",
   "devdoc": {
     "details": "Base escrow contract, holds funds designated for a payee until they withdraw them. Intended usage: This contract (and derived escrow contracts) should be a standalone contract, that only interacts with the contract that instantiated it. That way, it is guaranteed that all Ether will be handled according to the `Escrow` rules, and there is no need to check for payable functions or transfers in the inheritance tree. The contract that uses the escrow as its payment method should be its owner, and provide public methods redirecting to the escrow's deposit and withdraw.",
     "kind": "dev",

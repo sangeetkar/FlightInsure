@@ -63,13 +63,18 @@ contract FlightInsureData is Ownable, Pausable, PullPayment {
         _;
     }
 
-    //
-    // Fix onlyApp
-    //
-    //
+    modifier onlyAppOrOwner() {
+        require(
+            msg.sender == appContract || msg.sender == owner(),
+            "Not authorised"
+        );
+        _;
+    }
+
     function registerAirline(address airline)
         external
-        whenNotPaused /*onlyApp*/
+        whenNotPaused
+        onlyAppOrOwner
     {
         require(!isRegistered(airline), "Airline already registered");
         airlines.push(airline);

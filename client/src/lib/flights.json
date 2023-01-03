@@ -1,0 +1,17 @@
+[
+	{
+		"airline": "0x42b8af897600e4D674f9AcCd8d6b748326bfb2dc",
+		"flight": "L01",
+		"timestamp": 1672751111330
+	},
+	{
+		"airline": "0x42b8af897600e4D674f9AcCd8d6b748326bfb2dc",
+		"flight": "L02",
+		"timestamp": 1672751211330
+	},
+	{
+		"airline": "0x42b8af897600e4D674f9AcCd8d6b748326bfb2dc",
+		"flight": "L03",
+		"timestamp": 1672751311330
+	}
+]
