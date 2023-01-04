@@ -84,7 +84,17 @@ npm run dapp
 
   - The App contract can be upgraded in the future (application logic is what gets upgraded usually). And the new contract can be hooked to the Data contract by calling __setApp__ method on the Data contract.
 
-## Frontend
+
+## Server code
+
+The Server code creates 20 oracles that
+- register themselves by calling smart contract method *registerOracle*
+- wait for *OracleRequest* event
+- send FlightStatus info by calling the smart contract method *submitOracleResponse*
+
+Additionally it also creates sample flight db to be used by the dApp
+
+## dApp Frontend
 
 It was exciting to try svelte for frontend coding. The corresponding code can be found in __client/src__ directory.
 
