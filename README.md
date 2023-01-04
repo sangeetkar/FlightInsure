@@ -70,6 +70,10 @@ npm run dapp
 
 ## Smart Contract Development
 
+- code in *contracts*
+- deploy code in *migrations*
+- test code in *test* directory
+
 > I used the reliable Openzeppelin contracts to pull the following functionalities:
 
   - Ownable: It enables Contract ownership (and modifiers for access management)
@@ -87,6 +91,8 @@ npm run dapp
 
 ## Server code
 
+code in *src* directory
+
 The Server code creates 20 oracles that
 - register themselves by calling smart contract method *registerOracle*
 - wait for *OracleRequest* event
@@ -96,7 +102,7 @@ Additionally it also creates sample flight db to be used by the dApp
 
 ## dApp Frontend
 
-It was exciting to try svelte for frontend coding. The corresponding code can be found in __client/src__ directory.
+It was exciting to try svelte for frontend coding. The corresponding code can be found in *client/src* directory.
 
 The frontend is modular with separate pages to:
 
