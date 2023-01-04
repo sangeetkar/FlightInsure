@@ -88,13 +88,35 @@ npm run dapp
 
 It was exciting to try svelte for frontend coding. The corresponding code can be found in __client/src__ directory.
 
+The frontend is modular with separate pages to:
+
+1. Buy Insurance
+2. Claim Insurance
+3. Airlines' page: 
+- Send funds after being registered.
+- Register other airlines
+
+
 Screenshots:
 
+### Intro Page
 ![Intro Page](./images/About.JPG)
+
+### Buying Insurance: You need to connect your wallet first
 ![Buying - Wallet Error](./images/walletError.JPG)
-![Buying - Error buying insurance for departed flight](./images/buyingError.JPG)
+
+### Buying Insurance using Metamask
 ![Buying - successful](./images/bought.JPG)
+
+### Buying Insurance: You can't buy insurance for departed flights
+![Buying - Error buying insurance for departed flight](./images/buyingError.JPG)
+
+### Claiming insurance: When it's not the Airline's fault.
 ![Claiming - unsuccessfull](./images/claim1.JPG)
+
+### Claiming insurance: Claim button is enabled.
 ![Claiming - successful](./images/claimSuccessful.JPG)
+
+### Airlines' page
 ![Airline Manager](./images/airline.JPG)
 
