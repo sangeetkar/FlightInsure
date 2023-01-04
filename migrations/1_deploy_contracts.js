@@ -2,11 +2,12 @@ const FlightInsureData = artifacts.require("FlightInsureData");
 const FlightInsureApp = artifacts.require("FlightInsureApp");
 const fs = require('fs');
 
-//mnemonic to use with Ganache: 
-//sick volcano flock burger stairs double later supreme club matter fiscal vehicle
-
 module.exports = async function (deployer) {
-    let firstAirline = '0x42b8af897600e4D674f9AcCd8d6b748326bfb2dc';
+
+    let accounts = await web3.eth.personal.getAccounts();
+    console.log(accounts[1]);
+    //let firstAirline = '0x42b8af897600e4D674f9AcCd8d6b748326bfb2dc';
+    let firstAirline = accounts[1];
     await deployer.deploy(FlightInsureData);
     const dataAddress = FlightInsureData.address;
     await deployer.deploy(FlightInsureApp, dataAddress);
@@ -20,7 +21,8 @@ module.exports = async function (deployer) {
         localhost: {
             url: 'http://localhost:8545',
             dataAddress: FlightInsureData.address,
-            appAddress: FlightInsureApp.address
+            appAddress: FlightInsureApp.address,
+            firstAirline: firstAirline
         }
     }
     fs.writeFileSync('./src/config.json', JSON.stringify(config, null, '\t'), 'utf-8');

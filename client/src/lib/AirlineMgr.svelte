@@ -5,6 +5,12 @@
     let airline = "";
 
     let fund = async () => {
+        if (!config.appContract) {
+            showError(
+                "Connect your wallet first! (Click the Button on the Menu!)"
+            );
+            return;
+        }
         try {
             await config.appContract.methods.fund().send({
                 from: config.account,
@@ -12,17 +18,25 @@
             });
             showError("Funds sent!");
         } catch (err) {
-            showError(err.message);
+            console.log(err.message);
+            showError("Error: Have you registered yourself?");
         }
     };
 
     let registerAirline = async () => {
+        if (!config.appContract) {
+            showError(
+                "Connect your wallet first! (Click the Button on the Menu!)"
+            );
+            return;
+        }
         try {
             await config.appContract.methods
                 .registerAirline("0x" + airline)
                 .send({ from: config.account });
         } catch (err) {
-            showError(err.message);
+            console.log(err.message);
+            showError("Error: Is the airline already registered?");
         }
     };
 </script>

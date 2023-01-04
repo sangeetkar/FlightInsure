@@ -25,6 +25,12 @@
     ];
 
     let buyInsurance = async () => {
+        if (!config.appContract) {
+            showError(
+                "Connect your wallet first! (Click the Button on the Menu!)"
+            );
+            return;
+        }
         buyButtonText = "Buying...";
         try {
             let block_timestamp = Math.floor(+timestamp / 1000);
@@ -36,7 +42,10 @@
                 });
             buyButtonText = "Buy Insurance";
         } catch (err) {
-            showError(err.message);
+            console.log(err.message);
+            showError(
+                "Error: Are you trying to buy insurance for a departed flight?"
+            );
             buyButtonText = "Buy Insurance";
         }
     };

@@ -22,10 +22,14 @@ async function setupOracles() {
 	const fee = await flightInsureApp.methods.REGISTRATION_FEE().call({ from: accounts[0] });
 
 	for (let oracle of oracles) {
-		await flightInsureApp.methods.registerOracle().send({ from: oracle, value: fee, gas: '900000' });
-		let indices = await flightInsureApp.methods.getMyIndexes().call({ from: oracle });
-		oracleIndices[oracle] = indices;
-		console.log(`Oracle ${oracle} registered with indices: ${indices}`);
+		try {
+			await flightInsureApp.methods.registerOracle().send({ from: oracle, value: fee, gas: '1000000' });
+			let indices = await flightInsureApp.methods.getMyIndexes().call({ from: oracle });
+			oracleIndices[oracle] = indices;
+			console.log(`Oracle ${oracle} registered with indices: ${indices}`);
+		} catch (e) {
+			console.log(e.message);
+		}
 	}
 
 	await flightInsureApp.events.OracleRequest(async (error, evt) => {
@@ -39,7 +43,7 @@ async function setupOracles() {
 				let indices = oracleIndices[oracle];
 				if (indices.includes(index)) {
 					try {
-						await flightInsureApp.methods.submitOracleResponse(index, airline, flight, timestamp, responseCode).send({ from: oracle, gas: '900000' });
+						await flightInsureApp.methods.submitOracleResponse(index, airline, flight, timestamp, responseCode).send({ from: oracle, gas: '1000000' });
 						console.log("response submittted ", index, oracle);
 					} catch (err) {
 						console.log(err.message);
@@ -69,7 +73,8 @@ async function setupOracles() {
 
 function generateFlights() {
 	let flightsdb = [];
-	const airline = "0x42b8af897600e4D674f9AcCd8d6b748326bfb2dc";
+	const config = Config['localhost'];
+	const airline = config.firstAirline;
 	const flights = ["L01", "L02", "L03"];
 	const timestamp = Date.now();
 

@@ -28,6 +28,12 @@
     ];
 
     let checkStatus = async () => {
+        if (!config.appContract) {
+            showError(
+                "Connect your wallet first! (Click the Button on the Menu!)"
+            );
+            return;
+        }
         errorReported = false;
         try {
             let block_timestamp = Math.floor(timestamp / 1000);
@@ -74,7 +80,10 @@
                 .fetchFlightStatus(airline, flight, block_timestamp)
                 .send({ from: config.account });
         } catch (err) {
-            showError(err.message);
+            console.log(err.message);
+            showError(
+                "Error: Are you trying to claim insurance for a future flight?"
+            );
             checkButtonText = "Check Status";
         }
     };

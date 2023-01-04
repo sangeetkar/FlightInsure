@@ -196,7 +196,7 @@ contract FlightInsureApp is Ownable, Pausable {
     /// Oracle Code
 
     // Incremented to add pseudo-randomness at various points
-    uint8 private nonce = 0;
+    uint256 private nonce = 0;
 
     // Fee to be paid when registering oracle
     uint256 public constant REGISTRATION_FEE = 1 ether;
@@ -331,20 +331,32 @@ contract FlightInsureApp is Ownable, Pausable {
         return indexes;
     }
 
+    function abs(int256 x) internal pure returns (int256) {
+        return x < 0 ? -x : x;
+    }
+
     // Returns array of three non-duplicating integers from 0-9
     function getRandomIndex(address account) internal returns (uint8) {
         uint8 maxValue = 10;
 
         // Pseudo random number...the incrementing nonce adds variation
+        // uint8 random = uint8(
+        //     uint256(
+        //         keccak256(
+        //             abi.encodePacked(
+        //                 blockhash(abs(block.number - nonce++), account)
+        //             )
+        //         ) % maxValue
+        //     )
+        // );
+
         uint8 random = uint8(
             uint256(
-                keccak256(
-                    abi.encodePacked(blockhash(block.number - nonce++), account)
-                )
+                keccak256(abi.encodePacked(block.timestamp, account, nonce++))
             ) % maxValue
         );
 
-        if (nonce > 250) {
+        if (nonce > 1000) {
             nonce = 0; // Can only fetch blockhashes for last 256 blocks so we adapt
         }
 

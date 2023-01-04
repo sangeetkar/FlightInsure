@@ -1,9 +1,6 @@
 const FlightInsureData = artifacts.require("FlightInsureData");
 const FlightInsureApp = artifacts.require("FlightInsureApp");
 
-//mnemonic to use with Ganache: 
-//sick volcano flock burger stairs double later supreme club matter fiscal vehicle
-
 contract('Flight Insure Tests', async (accounts) => {
 
 
